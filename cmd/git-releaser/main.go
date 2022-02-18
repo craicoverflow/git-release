@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/craicoverflow/git-releaser/internal/cmd/root"
+)
 
 func main() {
-	fmt.Println("hello world!")
+	rootCmd := root.NewCmd()
+	if err := rootCmd.Execute(); err != nil {
+		os.Exit(1)
+	}
 }
