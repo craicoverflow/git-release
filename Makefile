@@ -1,5 +1,13 @@
-.DEFAULT_GOAL := bin
+.DEFAULT_GOAL := build
 
-bin:
+build:
 	go build -o ./git-release ./cmd/git-release
-.PHONY: bin
+.PHONY: build
+
+test:
+	go test -v ./...
+.PHONY: test
+
+lint:
+	golangci-lint run ./...
+.PHONY: lint
