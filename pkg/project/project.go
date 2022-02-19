@@ -29,7 +29,7 @@ func New(remoteURL string) (*Project, error) {
 		return nil, err
 	}
 
-	tags.ForEach(func(r *plumbing.Reference) error {
+	_ = tags.ForEach(func(r *plumbing.Reference) error {
 		parsedVersion, err := version.Parse(r)
 		if err == nil {
 			project.versionList = append(project.versionList, parsedVersion)
