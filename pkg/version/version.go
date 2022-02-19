@@ -9,6 +9,8 @@ import (
 	"github.com/go-git/go-git/v5/plumbing"
 )
 
+type Hash [20]byte
+
 type Version struct {
 	Prefix     string
 	Major      int
@@ -16,6 +18,7 @@ type Version struct {
 	Patch      int
 	Prerelease *Prerelease
 	Meta       string
+	Hash       Hash
 }
 
 type Prerelease struct {
@@ -80,9 +83,15 @@ func Parse(ref *plumbing.Reference) (*Version, error) {
 			return nil, errors.New("could not parse pre-release " + prerel)
 		}
 		version.Prerelease = preRelease
+	} else {
+		patch, err := strconv.Atoi(parts[2])
+		if err != nil {
+			return nil, errors.New("could not parse patch version " + parts[2])
+		}
+		version.Patch = patch
 	}
 
-	fmt.Println(version.String())
+	version.Hash = Hash(ref.Hash())
 
 	return &version, nil
 }
